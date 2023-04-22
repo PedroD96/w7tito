@@ -32,107 +32,107 @@ export default function Register() {
                 </Animatable.View>
 
                 <Animatable.View animation="fadeInUp" style={styles.containerForm}>
-                    
-                    <Text style={styles.titleForm}>Informe Seu Nome</Text>
+                        
+                        <Text style={styles.titleForm}>Informe Seu Nome</Text>
+                        <Controller
+                        control={control}
+                         name='username'
+                         render={({ field: { onChange, onBlur, value } }) => (
+                            <TextInput 
+                             style={styles.user} 
+                             placeholder='Informe nome e sobrenome'
+                             onBlur={onBlur}
+                             onChangeText={onChange}
+                             value={value}
+                            />
+                         )}
+                        />
+                        {errors.username && <Text style={styles.labelError}>{errors.username?.message}</Text>}
+                        
+                        <Text style={styles.titleForm}>Cargo</Text>
                     <Controller
-                    control={control}
-                     name='username'
+                     control={control}
+                     name='position'
                      render={({ field: { onChange, onBlur, value } }) => (
                         <TextInput 
                          style={styles.user} 
-                         placeholder='Informe nome e sobrenome'
+                         placeholder='informe seu cargo'
                          onBlur={onBlur}
                          onChangeText={onChange}
                          value={value}
                         />
                      )}
                     />
-                    {errors.username && <Text style={styles.labelError}>{errors.username?.message}</Text>}
-
-                    <Text style={styles.titleForm}>Cargo</Text>
-                <Controller
-                 control={control}
-                 name='position'
-                 render={({ field: { onChange, onBlur, value } }) => (
-                    <TextInput 
-                     style={styles.user} 
-                     placeholder='informe seu cargo'
-                     onBlur={onBlur}
-                     onChangeText={onChange}
-                     value={value}
+                    {errors.position && <Text style={styles.labelError}>{errors.position?.message}</Text>}
+                    
+                    <Text style={styles.titleForm}>E-mail</Text>
+                    <Controller
+                     control={control}
+                     name='email'
+                     render={({ field: { onChange, onBlur, value } }) => (
+                        <TextInput 
+                         style={styles.user} 
+                         placeholder='informe seu e-mail'
+                         onBlur={onBlur}
+                         onChangeText={onChange}
+                         value={value}
+                        />
+                     )}
                     />
-                 )}
-                />
-                {errors.position && <Text style={styles.labelError}>{errors.position?.message}</Text>}
-
-                <Text style={styles.titleForm}>E-mail</Text>
-                <Controller
-                 control={control}
-                 name='email'
-                 render={({ field: { onChange, onBlur, value } }) => (
-                    <TextInput 
-                     style={styles.user} 
-                     placeholder='informe seu e-mail'
-                     onBlur={onBlur}
-                     onChangeText={onChange}
-                     value={value}
+                    {errors.email && <Text style={styles.labelError}>{errors.email?.message}</Text>}
+                    
+                    <Text style={styles.titleForm}>Empresa</Text>
+                    <Controller
+                     control={control}
+                     name='enterprise'
+                     render={({ field: { onChange, onBlur, value } }) => (
+                        <TextInput 
+                         style={styles.user} 
+                         placeholder='Informe sua empresa'
+                         onBlur={onBlur}
+                         onChangeText={onChange}
+                         value={value}
+                        />
+                     )}
                     />
-                 )}
-                />
-                {errors.email && <Text style={styles.labelError}>{errors.email?.message}</Text>}
-
-                <Text style={styles.titleForm}>Empresa</Text>
-                <Controller
-                 control={control}
-                 name='enterprise'
-                 render={({ field: { onChange, onBlur, value } }) => (
-                    <TextInput 
-                     style={styles.user} 
-                     placeholder='Informe sua empresa'
-                     onBlur={onBlur}
-                     onChangeText={onChange}
-                     value={value}
+                    {errors.enterprise && <Text style={styles.labelError}>{errors.enterprise?.message}</Text>}
+                    
+                    <Text style={styles.titleForm}>Filial</Text>
+                    <Controller
+                     control={control}
+                     name='branch'
+                     render={({ field: { onChange, onBlur, value } }) => (
+                        <TextInput 
+                         style={styles.user} 
+                         placeholder='Informe sua filial'
+                         onBlur={onBlur}
+                         onChangeText={onChange}
+                         value={value}
+                        />
+                     )}
                     />
-                 )}
-                />
-                {errors.enterprise && <Text style={styles.labelError}>{errors.enterprise?.message}</Text>}
-
-                <Text style={styles.titleForm}>Filial</Text>
-                <Controller
-                 control={control}
-                 name='branch'
-                 render={({ field: { onChange, onBlur, value } }) => (
-                    <TextInput 
-                     style={styles.user} 
-                     placeholder='Informe sua filial'
-                     onBlur={onBlur}
-                     onChangeText={onChange}
-                     value={value}
+                    {errors.branch && <Text style={styles.labelError}>{errors.branch?.message}</Text>}
+                    
+                    <Text style={styles.titleForm}>Senha</Text>
+                    <Controller
+                     control={control}
+                     name='password'
+                     render={({ field: { onChange, onBlur, value } }) => (
+                        <TextInput 
+                         style={styles.user} 
+                         placeholder='Informe uma senha'
+                         secureTextEntry={true}
+                         onBlur={onBlur}
+                         onChangeText={onChange}
+                         value={value}
+                        />
+                     )}
                     />
-                 )}
-                />
-                {errors.branch && <Text style={styles.labelError}>{errors.branch?.message}</Text>}
-
-                <Text style={styles.titleForm}>Senha</Text>
-                <Controller
-                 control={control}
-                 name='password'
-                 render={({ field: { onChange, onBlur, value } }) => (
-                    <TextInput 
-                     style={styles.user} 
-                     placeholder='Informe uma senha'
-                     secureTextEntry={true}
-                     onBlur={onBlur}
-                     onChangeText={onChange}
-                     value={value}
-                    />
-                 )}
-                />
-                {errors.password && <Text style={styles.labelError}>{errors.password?.message}</Text>}
-
-                <TouchableOpacity style={styles.button}>
-                    <Text style={styles.buttonText} onPress={handleSubmit(saveRegidter)}>Cadastrar</Text>
-                </TouchableOpacity>
+                    {errors.password && <Text style={styles.labelError}>{errors.password?.message}</Text>}
+                    
+                    <TouchableOpacity style={styles.button} onPress={() => navigation.navigate('Login')}>
+                        <Text style={styles.buttonText} >Cadastrar</Text>
+                    </TouchableOpacity>
 
                 </Animatable.View>
             </ScrollView>

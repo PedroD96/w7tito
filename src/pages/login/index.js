@@ -66,9 +66,10 @@ export default function Login() {
                 {errors.password && <Text style={styles.labelError}>{errors.password?.message}</Text>}
 
 
-                <TouchableOpacity style={styles.button}>
-                    <Text style={styles.buttonText} onPress={handleSubmit(SignIn)}>Acessar</Text>
+                <TouchableOpacity style={styles.button} onPress={() => navigation.navigate('Main')} >
+                    <Text style={styles.buttonText} >Acessar</Text>
                 </TouchableOpacity>
+                {/* onPress={handleSubmit(SignIn)} */}
 
                 <TouchableOpacity style={styles.buttonRegister}>
                     <Text style={styles.RegisterText} onPress={() => navigation.navigate('Register')}>
