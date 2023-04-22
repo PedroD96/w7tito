@@ -67,7 +67,7 @@ export default function ServiceOrdens() {
         }
       
         const day = date.getDate();
-        const month = date.getMonth() + 1;
+        const month = String(date.getMonth() + 1).padStart(2, '0');
         const year = date.getFullYear();
       
         return `${day}/${month}/${year}`;
@@ -104,7 +104,7 @@ export default function ServiceOrdens() {
                         <TextInput
                             style={styles.user}
                             onChangeText={onChange}
-                            value={'Usuario puxar automatico'}
+                            placeholder={'Usuario puxar automatico'}
                             editable={false}
                         />
                     )}
@@ -112,12 +112,12 @@ export default function ServiceOrdens() {
 
                 <Text style={styles.titleForm}>Previsão de Entrega</Text>
                 <TouchableOpacity onPress={() => setShowCalendar(true)}>
-                        <Text style={styles.input}>{selectedDate.toLocaleDateString()}</Text>
+                    <Text style={styles.input}>{formatDate(selectedDate)}</Text>
                 </TouchableOpacity>
                 <Controller
                   control={control}
                   name='previsaoDeEntrega'
-                  defaultValue={selectedDate}
+                  defaultValue={{ value: selectedDate }}
                   render={({ field: { onChange, value } }) => (
                     <Modal visible={showCalendar} onRequestClose={() => setShowCalendar(false)} transparent={true}>
                       <View style={[styles.calendarContainer]}>
@@ -143,7 +143,7 @@ export default function ServiceOrdens() {
                         <TextInput
                             style={styles.user}
                             onChangeText={onChange}
-                            value={'Escreva o nome da loja'}
+                            placeholder={'Escreva o nome da loja'}
                             editable={true}
                         />
                     )}
