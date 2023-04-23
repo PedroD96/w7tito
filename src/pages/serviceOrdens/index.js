@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { View, Text, StyleSheet, Image, TouchableOpacity, TextInput, Modal, KeyboardAvoidingView, ScrollView  } from "react-native";
+import { View, Text, StyleSheet, Image, TouchableOpacity, TextInput, Modal, KeyboardAvoidingView, ScrollView, Button  } from "react-native";
 import * as Animatable from "react-native-animatable";
 import { useNavigation } from "@react-navigation/native";
 import { useForm, Controller } from "react-hook-form";
@@ -8,9 +8,7 @@ import { Picker } from '@react-native-picker/picker';
 import DocumentPicker from 'react-native-document-picker';
 import * as yup from "yup";
 import { useRef, useState } from 'react';
-// import DateTimePicker from '@react-native-community/datetimepicker';
 import { Calendar } from 'react-native-calendars'
-import Swiper from 'react-native-swiper';
 
 const schemaRegister = yup.object({
     username: yup.string().required('Informe seu Nome e Sobrenome'),
@@ -41,7 +39,11 @@ export default function ServiceOrdens() {
       }
     };
 
-    
+    function limparValores()
+    {
+      setInputCadastroOS(false);
+    };
+
     const { control, handleSubmit, formState: {errors}} = useForm({
         resolver: yupResolver(schemaRegister)
     })
@@ -50,7 +52,7 @@ export default function ServiceOrdens() {
         console.log(data);
     }
 
-    
+    const [mostrarConclusao, setInputCadastroOS] = useState(false);
     const [showCalendar, setShowCalendar] = useState(false);
     const [selectedDate, setSelectedDate] = useState(new Date());
     
@@ -66,7 +68,7 @@ export default function ServiceOrdens() {
           return '';
         }
       
-        const day = date.getDate();
+        const day = String(date.getDate() + 1).padStart(2, '0');  
         const month = String(date.getMonth() + 1).padStart(2, '0');
         const year = date.getFullYear();
       
@@ -161,9 +163,9 @@ export default function ServiceOrdens() {
                                 onValueChange={onChange}
                             >
                                 <Picker.Item label="Selecione a categoria" value="" />
-                                <Picker.Item label="Categoria 1" value="categoria1" />
-                                <Picker.Item label="Categoria 2" value="categoria2" />
-                                <Picker.Item label="Categoria 3" value="categoria3" />
+                                <Picker.Item label="Eletronicos" value="Eletronicos" />
+                                <Picker.Item label="Manutenção Geral" value="Manutenção Geral" />
+                                <Picker.Item label="Vestuário" value="vestuário" />
                             </Picker>
                         </View>
                     )}
@@ -180,10 +182,10 @@ export default function ServiceOrdens() {
                                 selectedValue={value}
                                 onValueChange={onChange}
                             >
-                                <Picker.Item label="Selecione a categoria" value="" />
-                                <Picker.Item label="Categoria 1" value="categoria1" />
-                                <Picker.Item label="Categoria 2" value="categoria2" />
-                                <Picker.Item label="Categoria 3" value="categoria3" />
+                                <Picker.Item label="Selecione o nivel de Urgencia" value="" />
+                                <Picker.Item label="Baixo" value="Baixo" />
+                                <Picker.Item label="Medio" value="Medio" />
+                                <Picker.Item label="Alto" value="Alto" />
                             </Picker>
                         </View>
                     )}
@@ -210,15 +212,48 @@ export default function ServiceOrdens() {
                     name='anexo'
                     render={({ field: {onChange, value} }) => (
                         <View>
-                          <TouchableOpacity onPress={pickDocument}>
+                          <TouchableOpacity onPress={async () => {
+                            try {
+                              const result = await DocumentPicker.pick({
+                                type: [DocumentPicker.types.images],
+                              });
+                              console.log(
+                                result.uri,
+                                result.type, // mime type
+                                result.name,
+                                result.size
+                              );
+                              setFile(result.uri);
+                            } catch (err) {
+                              if (DocumentPicker.isCancel(err)) {
+                                console.log('Cancelado');
+                              } else {
+                                console.log('Erro: ', err);
+                                throw err;
+                              }
+                            }
+                          }}>
                             <Text style={styles.anexo}>+ Anexe uma imagem aqui</Text>
-                                {file && <Text>File URI: {file}</Text>}
+                            {file && <Text>File URI: {file}</Text>}
                           </TouchableOpacity>
                         </View>
-
                     )}
                 />
-                <TouchableOpacity style={styles.button} onPress={() => setShowCalendar(true)}>
+
+                <Modal style = {styles.bxModal}
+                         animationType = 'slide'
+                         transparent = { mostrarConclusao }
+                         visible = { mostrarConclusao }
+                         >
+                  <View style = {styles.bxModal}>
+                    <Text style = { styles.txtModal }> Ordem de Serviço cadastrada com sucesso! </Text>
+                    <Button
+                        title = 'Ok'
+                        onPress = { () => limparValores() }
+                    />
+                  </View>
+                </Modal>
+                <TouchableOpacity style={styles.button} onPress={() => setInputCadastroOS(true)}>
                         <Text style={styles.txtButton}>Enviar</Text>
                 </TouchableOpacity>
             </Animatable.View>
@@ -273,16 +308,16 @@ const styles = StyleSheet.create({
         backgroundColor: 'rgba(0, 0, 0, 0.5)',
     },
     calendarContainer: {
-    backgroundColor: '#fff',
-    borderWidth: 2,
-    borderColor: '#000',
-    borderRadius: 10,
-    overflow: 'hidden',
-    width: '90%',
-    maxHeight: '80%',
-    marginTop: '80%', 
-    marginLeft:'5%',
-    justifyContent: 'center',
+        backgroundColor: '#fff',
+        borderWidth: 2,
+        borderColor: '#000',
+        borderRadius: 10,
+        overflow: 'hidden',
+        width: '90%',
+        maxHeight: '80%',
+        marginTop: '80%', 
+        marginLeft:'5%',
+        justifyContent: 'center',
     },
     button: {
         backgroundColor: '#33CCFF',
@@ -318,6 +353,21 @@ const styles = StyleSheet.create({
     },
     descricao: {
         height: 100,
-        borderWidth: 0.2,
+        borderWidth: 0,
+    },
+    bxModal: {
+      backgroundColor: '#FFFF',
+      margin: 20,
+      padding: 20,
+      marginTop: 220,
+      borderRadius: 7,
+      elevation: 10,
+      alignItems: 'center',
+      justifyContent: 'center',
+    },
+    txtModal: {
+      fontSize: 17,
+      fontWeight: 'bold',
+      padding: 20,
     },
 })

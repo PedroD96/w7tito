@@ -3,6 +3,7 @@ import { View, Text, TextInput, TouchableOpacity, StyleSheet, ScrollView } from 
 import * as Animatable from "react-native-animatable";
 import { useForm, Controller } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
+import { useNavigation } from "@react-navigation/native";
 import * as yup from "yup";
 
 const schemaRegister = yup.object({
@@ -16,6 +17,7 @@ const schemaRegister = yup.object({
 
 export default function Register() {
 
+    const navigation = useNavigation();
     const { control, handleSubmit, formState: {errors}} = useForm({
         resolver: yupResolver(schemaRegister)
     })
